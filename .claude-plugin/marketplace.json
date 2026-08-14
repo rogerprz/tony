@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "franky",
+  "description": "Reusable day-to-day engineering skills for Claude Code",
+  "owner": { "name": "Roger Perez" },
+  "plugins": [
+    {
+      "name": "franky",
+      "description": "Reusable day-to-day engineering skills",
+      "author": { "name": "Roger Perez" },
+      "source": "./plugins/franky",
+      "category": "productivity"
+    }
+  ]
+}

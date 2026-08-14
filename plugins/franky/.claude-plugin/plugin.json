@@ -1,0 +1,8 @@
+{
+  "name": "franky",
+  "description": "Reusable day-to-day engineering skills",
+  "version": "0.1.0",
+  "author": { "name": "Roger Perez" },
+  "homepage": "https://github.com/rogerprz/franky",
+  "repository": "https://github.com/rogerprz/franky"
+}
