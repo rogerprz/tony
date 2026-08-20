@@ -42,6 +42,9 @@ or Project.
 
 ## Skills
 
+- **`code-review`** — multi-axis review (correctness, readability,
+  architecture, security, performance) with severity-labeled findings,
+  change-sizing guidance, and a verdict.
 - **`pr-comments`** — reviews the current PR's comments, checks each
   against the actual diff, flags due-diligence gaps, and produces a
   change plan. Doesn't auto-apply changes or reply to comments.
