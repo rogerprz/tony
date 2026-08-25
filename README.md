@@ -48,6 +48,12 @@ or Project.
 - **`pr-comments`** — reviews the current PR's comments, checks each
   against the actual diff, flags due-diligence gaps, and produces a
   change plan. Doesn't auto-apply changes or reply to comments.
+- **`spec-verification`** — pre-flight check for design/spec docs before
+  presenting them: verifies factual claims against primary sources
+  (not just a research summary), checks reused patterns still hold
+  their original invariant, demands a real list for any completeness
+  claim, checks async operations for lifecycle races, and does a
+  self-consistency reread.
 
 ## Contributing
 
