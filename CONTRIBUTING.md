@@ -1,8 +1,8 @@
-# Contributing to franky
+# Contributing to tony
 
 ## Skill format
 
-Every skill is a folder under `plugins/franky/skills/` containing a
+Every skill is a folder under `plugins/tony/skills/` containing a
 `SKILL.md`:
 
 ```markdown
@@ -28,8 +28,8 @@ Markdown instructions body: purpose, process, output.
 
 ## Adding a new skill
 
-1. Copy `plugins/franky/skills/TEMPLATE/` to
-   `plugins/franky/skills/<skill-name>/`.
+1. Copy `plugins/tony/skills/TEMPLATE/` to
+   `plugins/tony/skills/<skill-name>/`.
 2. Fill in `name` and `description` in the frontmatter.
 3. Write the instructions body: Purpose, Process, Output.
 4. Dry-run the skill against a real scenario in your own session and

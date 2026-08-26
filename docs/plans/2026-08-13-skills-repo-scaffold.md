@@ -1,10 +1,10 @@
-# franky Skills Repo Scaffold Implementation Plan
+# tony Skills Repo Scaffold Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Scaffold `franky` as a self-hosted Claude Code plugin marketplace, with a working `pr-comments` skill and a blank `TEMPLATE` skill, so it can be cloned and installed by others as `franky:pr-comments`.
+**Goal:** Scaffold `tony` as a self-hosted Claude Code plugin marketplace, with a working `pr-comments` skill and a blank `TEMPLATE` skill, so it can be cloned and installed by others as `tony:pr-comments`.
 
-**Architecture:** One repo plays both roles — marketplace (`.claude-plugin/marketplace.json` at repo root) and the single plugin it lists (`plugins/franky/`, with its own `.claude-plugin/plugin.json` and a `skills/` folder). No code to compile; every task's deliverable is a file (JSON or Markdown) that must be structurally valid and, where possible, verified by actually loading the plugin with `claude --plugin-dir`.
+**Architecture:** One repo plays both roles — marketplace (`.claude-plugin/marketplace.json` at repo root) and the single plugin it lists (`plugins/tony/`, with its own `.claude-plugin/plugin.json` and a `skills/` folder). No code to compile; every task's deliverable is a file (JSON or Markdown) that must be structurally valid and, where possible, verified by actually loading the plugin with `claude --plugin-dir`.
 
 **Tech Stack:** Plain JSON (`plugin.json`, `marketplace.json`), Markdown with YAML frontmatter (`SKILL.md`), git. No build step, no package manager, no test framework — validation is JSON well-formedness plus loading the plugin in a real Claude Code session.
 
@@ -12,9 +12,9 @@
 
 ## Global Constraints
 
-- Plugin/marketplace name is `franky` in both `marketplace.json` and `plugin.json` — this is what produces the `franky:` skill prefix.
+- Plugin/marketplace name is `tony` in both `marketplace.json` and `plugin.json` — this is what produces the `tony:` skill prefix.
 - No `LICENSE` file — repo defaults to all-rights-reserved (deliberate, per spec).
-- `skills/` lives at `plugins/franky/skills/`, not at repo root.
+- `skills/` lives at `plugins/tony/skills/`, not at repo root.
 - Each `SKILL.md` requires YAML frontmatter with `description` (required) and `name` (recommended, must match the folder name).
 - `pr-comments` skill must never auto-apply code changes or auto-reply to PR comments — output is a plan/assessment only, per the user's standing no-autonomous-action rule.
 - Do not commit or push — leave changes staged/unstaged for the user to review, per standing rule (this plan's "Commit" steps stage-only or are skipped; see Task notes).
@@ -25,10 +25,10 @@
 
 **Files:**
 - Create: `.claude-plugin/marketplace.json`
-- Create: `plugins/franky/.claude-plugin/plugin.json`
+- Create: `plugins/tony/.claude-plugin/plugin.json`
 
 **Interfaces:**
-- Produces: the `franky` marketplace name (used by `/plugin marketplace add`) and the `franky` plugin name (used by `/plugin install franky@franky` and the `franky:` skill prefix consumed by every later task).
+- Produces: the `tony` marketplace name (used by `/plugin marketplace add`) and the `tony` plugin name (used by `/plugin install tony@tony` and the `tony:` skill prefix consumed by every later task).
 
 - [ ] **Step 1: Create the marketplace manifest**
 
@@ -36,15 +36,15 @@
 ```json
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "franky",
+  "name": "tony",
   "description": "Reusable day-to-day engineering skills for Claude Code",
   "owner": { "name": "Roger Perez" },
   "plugins": [
     {
-      "name": "franky",
+      "name": "tony",
       "description": "Reusable day-to-day engineering skills",
       "author": { "name": "Roger Perez" },
-      "source": "./plugins/franky",
+      "source": "./plugins/tony",
       "category": "productivity"
     }
   ]
@@ -53,15 +53,15 @@
 
 - [ ] **Step 2: Create the plugin manifest**
 
-`plugins/franky/.claude-plugin/plugin.json`:
+`plugins/tony/.claude-plugin/plugin.json`:
 ```json
 {
-  "name": "franky",
+  "name": "tony",
   "description": "Reusable day-to-day engineering skills",
   "version": "0.1.0",
   "author": { "name": "Roger Perez" },
-  "homepage": "https://github.com/rogerprz/franky",
-  "repository": "https://github.com/rogerprz/franky"
+  "homepage": "https://github.com/rogerprz/tony",
+  "repository": "https://github.com/rogerprz/tony"
 }
 ```
 
@@ -70,14 +70,14 @@
 Run:
 ```bash
 python3 -m json.tool .claude-plugin/marketplace.json > /dev/null && echo OK
-python3 -m json.tool plugins/franky/.claude-plugin/plugin.json > /dev/null && echo OK
+python3 -m json.tool plugins/tony/.claude-plugin/plugin.json > /dev/null && echo OK
 ```
 Expected: `OK` printed twice, no errors.
 
 - [ ] **Step 4: Stage the files**
 
 ```bash
-git add .claude-plugin/marketplace.json plugins/franky/.claude-plugin/plugin.json
+git add .claude-plugin/marketplace.json plugins/tony/.claude-plugin/plugin.json
 ```
 Do not commit — leave staged for the user to review and commit themselves.
 
@@ -86,7 +86,7 @@ Do not commit — leave staged for the user to review and commit themselves.
 ### Task 2: TEMPLATE skill scaffold
 
 **Files:**
-- Create: `plugins/franky/skills/TEMPLATE/SKILL.md`
+- Create: `plugins/tony/skills/TEMPLATE/SKILL.md`
 
 **Interfaces:**
 - Consumes: nothing (first skill file).
@@ -94,7 +94,7 @@ Do not commit — leave staged for the user to review and commit themselves.
 
 - [ ] **Step 1: Write the template**
 
-`plugins/franky/skills/TEMPLATE/SKILL.md`:
+`plugins/tony/skills/TEMPLATE/SKILL.md`:
 ```markdown
 ---
 name: TEMPLATE
@@ -131,7 +131,7 @@ Run:
 ```bash
 python3 -c "
 import re, sys
-text = open('plugins/franky/skills/TEMPLATE/SKILL.md').read()
+text = open('plugins/tony/skills/TEMPLATE/SKILL.md').read()
 m = re.match(r'^---\n(.*?)\n---\n', text, re.DOTALL)
 assert m, 'no frontmatter block found'
 import yaml
@@ -146,7 +146,7 @@ exception. If `yaml` isn't installed, run `pip3 install pyyaml` first.
 - [ ] **Step 3: Stage the file**
 
 ```bash
-git add plugins/franky/skills/TEMPLATE/SKILL.md
+git add plugins/tony/skills/TEMPLATE/SKILL.md
 ```
 
 ---
@@ -154,15 +154,15 @@ git add plugins/franky/skills/TEMPLATE/SKILL.md
 ### Task 3: `pr-comments` skill
 
 **Files:**
-- Create: `plugins/franky/skills/pr-comments/SKILL.md`
+- Create: `plugins/tony/skills/pr-comments/SKILL.md`
 
 **Interfaces:**
-- Consumes: the frontmatter/section shape established by `plugins/franky/skills/TEMPLATE/SKILL.md` (Task 2).
-- Produces: the `franky:pr-comments` skill, the one exercised end-to-end in Task 5's dry run.
+- Consumes: the frontmatter/section shape established by `plugins/tony/skills/TEMPLATE/SKILL.md` (Task 2).
+- Produces: the `tony:pr-comments` skill, the one exercised end-to-end in Task 5's dry run.
 
 - [ ] **Step 1: Write the skill**
 
-`plugins/franky/skills/pr-comments/SKILL.md`:
+`plugins/tony/skills/pr-comments/SKILL.md`:
 ```markdown
 ---
 name: pr-comments
@@ -240,7 +240,7 @@ Run:
 ```bash
 python3 -c "
 import re
-text = open('plugins/franky/skills/pr-comments/SKILL.md').read()
+text = open('plugins/tony/skills/pr-comments/SKILL.md').read()
 m = re.match(r'^---\n(.*?)\n---\n', text, re.DOTALL)
 assert m, 'no frontmatter block found'
 import yaml
@@ -255,7 +255,7 @@ Expected: prints `OK pr-comments`.
 - [ ] **Step 3: Stage the file**
 
 ```bash
-git add plugins/franky/skills/pr-comments/SKILL.md
+git add plugins/tony/skills/pr-comments/SKILL.md
 ```
 
 ---
@@ -273,7 +273,7 @@ git add plugins/franky/skills/pr-comments/SKILL.md
 - [ ] **Step 1: Write README.md**
 
 ```markdown
-# franky
+# tony
 
 A shareable collection of reusable, day-to-day engineering skills in
 the `SKILL.md` format — PR review, investigation, problem breakdown,
@@ -292,24 +292,24 @@ its process.
 
 **Claude Code:**
 ```bash
-/plugin marketplace add rogerprz/franky
-/plugin install franky@franky
+/plugin marketplace add rogerprz/tony
+/plugin install tony@tony
 ```
-Then use `/franky:pr-comments` (or let it auto-trigger on "review the
+Then use `/tony:pr-comments` (or let it auto-trigger on "review the
 PR comments"). For a quick local test without installing:
 ```bash
-claude --plugin-dir ./plugins/franky
+claude --plugin-dir ./plugins/tony
 ```
 
 **Claude.ai:** Zip an individual skill folder under
-`plugins/franky/skills/<skill-name>/` (the folder itself becomes the
+`plugins/tony/skills/<skill-name>/` (the folder itself becomes the
 zip root) and upload it via Customize → Skills. Requires "Code
 execution and file creation" enabled in your account settings. There's
 no marketplace/plugin mechanism on this platform — skills are uploaded
 one at a time.
 
 **Codex CLI:** Reads `SKILL.md` natively — point it at
-`plugins/franky/skills/<skill-name>/`.
+`plugins/tony/skills/<skill-name>/`.
 
 **Plain ChatGPT:** No auto-triggering support. Usable only by pasting
 or uploading a skill's `SKILL.md` as reference material in a Custom GPT
@@ -330,11 +330,11 @@ process for adding a new one.
 - [ ] **Step 2: Write CONTRIBUTING.md**
 
 ```markdown
-# Contributing to franky
+# Contributing to tony
 
 ## Skill format
 
-Every skill is a folder under `plugins/franky/skills/` containing a
+Every skill is a folder under `plugins/tony/skills/` containing a
 `SKILL.md`:
 
 ```markdown
@@ -360,8 +360,8 @@ Markdown instructions body: purpose, process, output.
 
 ## Adding a new skill
 
-1. Copy `plugins/franky/skills/TEMPLATE/` to
-   `plugins/franky/skills/<skill-name>/`.
+1. Copy `plugins/tony/skills/TEMPLATE/` to
+   `plugins/tony/skills/<skill-name>/`.
 2. Fill in `name` and `description` in the frontmatter.
 3. Write the instructions body: Purpose, Process, Output.
 4. Dry-run the skill against a real scenario in your own session and
@@ -386,7 +386,7 @@ git add README.md CONTRIBUTING.md
 
 **Interfaces:**
 - Consumes: the full repo tree produced by Tasks 1-4.
-- Produces: confirmation that `franky:pr-comments` actually resolves as a real, loadable skill — the plan's overall acceptance test.
+- Produces: confirmation that `tony:pr-comments` actually resolves as a real, loadable skill — the plan's overall acceptance test.
 
 - [ ] **Step 1: Confirm the full tree matches the spec**
 
@@ -397,9 +397,9 @@ find . -path ./.git -prune -o -type f -print | sort
 Expected to include (at minimum):
 ```
 ./.claude-plugin/marketplace.json
-./plugins/franky/.claude-plugin/plugin.json
-./plugins/franky/skills/TEMPLATE/SKILL.md
-./plugins/franky/skills/pr-comments/SKILL.md
+./plugins/tony/.claude-plugin/plugin.json
+./plugins/tony/skills/TEMPLATE/SKILL.md
+./plugins/tony/skills/pr-comments/SKILL.md
 ./README.md
 ./CONTRIBUTING.md
 ```
@@ -409,11 +409,11 @@ No `./LICENSE` file present.
 
 Run, from the repo root:
 ```bash
-claude --plugin-dir ./plugins/franky
+claude --plugin-dir ./plugins/tony
 ```
 Inside the session, list available skills (or check the system
-skill listing shown at session start) and confirm `franky:pr-comments`
-and `franky:TEMPLATE` both appear with their descriptions intact.
+skill listing shown at session start) and confirm `tony:pr-comments`
+and `tony:TEMPLATE` both appear with their descriptions intact.
 Exit the session after confirming.
 
 - [ ] **Step 3: Sanity-check the pr-comments skill against a real PR (optional, requires an open PR with comments)**

@@ -1,4 +1,6 @@
-# franky
+# tony
+
+Named after my ride-or-die Honda Element. It was there when I needed a ride, it helped me move, and carried me up and down the 5 highway multiple times. It was a reliable companion, and I hope this project can be too.
 
 A shareable collection of reusable, day-to-day engineering skills in
 the `SKILL.md` format — PR review, investigation, problem breakdown,
@@ -16,25 +18,28 @@ its process.
 ## Install
 
 **Claude Code:**
+
 ```bash
-/plugin marketplace add rogerprz/franky
-/plugin install franky@franky
+/plugin marketplace add rogerprz/tony
+/plugin install tony@tony
 ```
-Then use `/franky:pr-comments` (or let it auto-trigger on "review the
+
+Then use `/tony:pr-comments` (or let it auto-trigger on "review the
 PR comments"). For a quick local test without installing:
+
 ```bash
-claude --plugin-dir ./plugins/franky
+claude --plugin-dir ./plugins/tony
 ```
 
 **Claude.ai:** Zip an individual skill folder under
-`plugins/franky/skills/<skill-name>/` (the folder itself becomes the
+`plugins/tony/skills/<skill-name>/` (the folder itself becomes the
 zip root) and upload it via Customize → Skills. Requires "Code
 execution and file creation" enabled in your account settings. There's
 no marketplace/plugin mechanism on this platform — skills are uploaded
 one at a time.
 
 **Codex CLI:** Reads `SKILL.md` natively — point it at
-`plugins/franky/skills/<skill-name>/`.
+`plugins/tony/skills/<skill-name>/`.
 
 **Plain ChatGPT:** No auto-triggering support. Usable only by pasting
 or uploading a skill's `SKILL.md` as reference material in a Custom GPT

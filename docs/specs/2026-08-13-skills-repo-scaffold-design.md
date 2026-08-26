@@ -1,8 +1,8 @@
-# franky: skills repo scaffold
+# tony: skills repo scaffold
 
 ## Purpose
 
-`franky` is a shareable collection of reusable, day-to-day engineering
+`tony` is a shareable collection of reusable, day-to-day engineering
 skills in the `SKILL.md` format (YAML frontmatter + Markdown
 instructions). Goal: let engineers clone the repo and get better,
 more consistent AI-assisted workflows for tasks like PR review,
@@ -19,19 +19,19 @@ added later via the process this repo documents in `CONTRIBUTING.md`.
 
 ## Repo structure
 
-franky is a Claude Code **plugin**, distributed as a self-hosted
+tony is a Claude Code **plugin**, distributed as a self-hosted
 **marketplace** (one repo serves both roles), so skills are invoked
-with the `franky:` namespace prefix (e.g. `franky:pr-comments`),
+with the `tony:` namespace prefix (e.g. `tony:pr-comments`),
 matching how plugins work today. Reference
 implementation confirmed against the installed `superpowers` plugin
 on this machine.
 
 ```
-franky/
+tony/
   .claude-plugin/
     marketplace.json
   plugins/
-    franky/
+    tony/
       .claude-plugin/
         plugin.json
       skills/
@@ -54,53 +54,53 @@ its own single plugin:
 ```json
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "franky",
+  "name": "tony",
   "description": "Reusable day-to-day engineering skills for Claude Code",
   "owner": { "name": "Roger Perez" },
   "plugins": [
     {
-      "name": "franky",
+      "name": "tony",
       "description": "Reusable day-to-day engineering skills",
       "author": { "name": "Roger Perez" },
-      "source": "./plugins/franky",
+      "source": "./plugins/tony",
       "category": "productivity"
     }
   ]
 }
 ```
 
-### plugins/franky/.claude-plugin/plugin.json
+### plugins/tony/.claude-plugin/plugin.json
 
 Only `name` is strictly required; other fields included for parity
 with `superpowers`' plugin.json shape:
 
 ```json
 {
-  "name": "franky",
+  "name": "tony",
   "description": "Reusable day-to-day engineering skills",
   "version": "0.1.0",
   "author": { "name": "Roger Perez" },
-  "homepage": "https://github.com/rogerprz/franky",
-  "repository": "https://github.com/rogerprz/franky"
+  "homepage": "https://github.com/rogerprz/tony",
+  "repository": "https://github.com/rogerprz/tony"
 }
 ```
 
-The `franky:` namespace prefix comes from this file's `name` field,
+The `tony:` namespace prefix comes from this file's `name` field,
 not the folder name. Each skill folder's name becomes the suffix,
-e.g. `skills/pr-comments/` → `franky:pr-comments`.
+e.g. `skills/pr-comments/` → `tony:pr-comments`.
 
 ### Install / invocation
 
 For anyone cloning or pointing Claude Code at the GitHub repo:
 
 ```
-/plugin marketplace add rogerprz/franky
-/plugin install franky@franky
+/plugin marketplace add rogerprz/tony
+/plugin install tony@tony
 ```
 
-Then `/franky:pr-comments` is available, same pattern as any other
+Then `/tony:pr-comments` is available, same pattern as any other
 installed marketplace plugin. Quick local dev/test without a
-persistent install: `claude --plugin-dir ./plugins/franky`.
+persistent install: `claude --plugin-dir ./plugins/tony`.
 
 ## Components
 
@@ -112,10 +112,10 @@ Covers:
 - One-paragraph explanation of what a skill is and why this repo
   exists ("share with others to be better engineers").
 - Install instructions per platform:
-  - Claude Code: `/plugin marketplace add rogerprz/franky` then
-    `/plugin install franky@franky` (or `claude --plugin-dir
-./plugins/franky` for a quick local test without installing).
-  - Claude.ai: zip `plugins/franky/skills/<skill-name>/` (folder
+  - Claude Code: `/plugin marketplace add rogerprz/tony` then
+    `/plugin install tony@tony` (or `claude --plugin-dir
+./plugins/tony` for a quick local test without installing).
+  - Claude.ai: zip `plugins/tony/skills/<skill-name>/` (folder
     becomes zip root), upload via Customize → Skills. Requires "Code
     execution and file creation" enabled. No marketplace/plugin
     mechanism on this platform — each skill is uploaded individually.
@@ -137,13 +137,13 @@ Audience: someone adding a new skill to the repo. Covers:
   be specific and imperative enough that the assistant reliably
   triggers on it — not a summary of what the skill contains.
 - Naming convention: lowercase-kebab-case folder name under
-  `plugins/franky/skills/` matching the skill's `name` field.
+  `plugins/tony/skills/` matching the skill's `name` field.
 - Optional `references/` and `scripts/` subfolders for content loaded
   on demand (not loaded until the skill body directs the agent to
   read them) — keeps the main `SKILL.md` lean.
 - Checklist for adding a skill:
-  1. Copy `plugins/franky/skills/TEMPLATE/` to
-     `plugins/franky/skills/<skill-name>/`.
+  1. Copy `plugins/tony/skills/TEMPLATE/` to
+     `plugins/tony/skills/<skill-name>/`.
   2. Fill in `name` and `description` (imperative, specific trigger
      conditions).
   3. Write the instructions body.
@@ -151,13 +151,13 @@ Audience: someone adding a new skill to the repo. Covers:
      output.
   5. Add one line to the skill list in `README.md`.
 
-### plugins/franky/skills/TEMPLATE/SKILL.md
+### plugins/tony/skills/TEMPLATE/SKILL.md
 
 A blank scaffold with placeholder frontmatter and a body outline
 (purpose, process/checklist, expected output), so copying it is the
 fastest path to a new skill.
 
-### plugins/franky/skills/pr-comments/SKILL.md
+### plugins/tony/skills/pr-comments/SKILL.md
 
 **Trigger**: user references "PR comments" (or equivalent) for the
 current pull request.
