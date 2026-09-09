@@ -53,6 +53,15 @@ or Project.
 - **`pr-comments`** — reviews the current PR's comments, checks each
   against the actual diff, flags due-diligence gaps, and produces a
   change plan. Doesn't auto-apply changes or reply to comments.
+- **`review-ready`** — reviews your own branch, diff, or PR the way an
+  outside reviewer would, before you request review, so the real
+  reviewers don't spend a round on what you could have caught. Scope
+  tiering, four review lenses, an evidence gate that keeps unproven
+  findings from being reported as blockers, and a fix list ordered by
+  what actually holds up the merge. Run `tony:review-ready deep` for
+  maximum recall: wider reading outside the diff, more specialists, and
+  an independent pass that tries to disprove each finding. Reports
+  only, never edits or comments.
 
 ## Contributing
 
