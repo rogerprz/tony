@@ -1,18 +1,18 @@
 ---
-name: review-ready
-description: "Use when a change is finished and about to go out for review, or when the user asks whether a branch, diff, or PR is ready, wants a pre-review self-check, asks what reviewers will flag, or says review-ready / review-ready deep. Reviews the change as an outside reviewer would and reports what to fix before requesting review."
+name: is-review-ready
+description: "Use when a change is finished and about to go out for review, or when the user asks whether a branch, diff, or PR is ready, wants a pre-review self-check, asks what reviewers will flag, or says is-review-ready / is-review-ready deep. Reviews the change as an outside reviewer would and reports a P0-P* Findings list of what to fix before requesting review."
 ---
 
-# Review Ready (review-ready / review-ready:deep)
+# Is Review Ready (is-review-ready / is-review-ready:deep)
 
 ## Purpose
 
 Review a change exactly as an outside reviewer would, before it goes out, so
 the real round trip is spent on judgment instead of on things the author could
-have caught. Output is an ordered fix list plus the questions a reviewer will
-still ask.
+have caught. Output is a P0-P* Findings list plus the questions a reviewer
+will still ask.
 
-Invoked as `tony:review-ready` (balanced) or `tony:review-ready deep`
+Invoked as `tony:is-review-ready` (balanced) or `tony:is-review-ready deep`
 (maximum recall).
 
 ## Stance: you are an outside reviewer
@@ -52,9 +52,8 @@ handled, which is the exact noise this skill exists to prevent.
 
 How to weigh each:
 
-- **Repository conventions outrank this skill.** A violation is "reviewer will
-  ask" by default, and a blocker only when the convention states it is
-  non-negotiable.
+- **Repository conventions outrank this skill.** A violation is **P2** by
+  default, and **P0** only when the convention states it is non-negotiable.
 - **An author's own task doc is not a project rule.** Its non-goals are the
   author's scoping, which is exactly what a reviewer is entitled to challenge.
   Note the stated scope, then judge whether it holds.
@@ -158,7 +157,7 @@ For each surviving finding, before assigning severity:
 
 1. **Mark its load-bearing premises** `established`, `unknown`, or
    `contradicted`. Any premise that is not established caps the finding at
-   "reviewer will ask", however obviously right the fix seems.
+   **P2**, however obviously right the fix seems.
 2. **Try to kill it.** Argue the author's side and look for the evidence that
    would disprove your finding, not more that fits it. This is cheap and it is
    what stops a wrong finding reaching the author. A finding that does not
@@ -166,15 +165,15 @@ For each surviving finding, before assigning severity:
 
 | Severity | Requires | Author action |
 |---|---|---|
-| **Blocker** | Catastrophic and broad or irreversible harm. Direct proof, high confidence, a valid harness, established premises, survived falsification | Fix before requesting review |
-| **Must fix** | A realistic material failure this change causes or worsens, with no acceptable fallback. Direct proof or a concrete gap, established premises, survived falsification | Fix before requesting review |
-| **Reviewer will ask** | A real bounded issue, missing case, open question, or worthwhile improvement | Fix, or answer it in the description before they ask |
-| **Optional** | Small objective cleanup, tiny cost | Author's call. Group these, never lead with them |
+| **P0** | Catastrophic and broad or irreversible harm. Direct proof, high confidence, a valid harness, established premises, survived falsification | Fix before requesting review |
+| **P1** | A realistic material failure this change causes or worsens, with no acceptable fallback. Direct proof or a concrete gap, established premises, survived falsification | Fix before requesting review |
+| **P2** | A real bounded issue, missing case, open question, or worthwhile improvement | Fix, or answer it in the description before they ask |
+| **P3** | Small objective cleanup, tiny cost | Author's call. Group these, never lead with them |
 
 Two rules for the edges:
 
-- **A pre-existing defect the change did not introduce** is at most "reviewer
-  will ask", and only when this change makes it reachable, worse, or obviously
+- **A pre-existing defect the change did not introduce** is at most **P2**,
+  and only when this change makes it reachable, worse, or obviously
   adjacent. State the provenance plainly so the author can decide to scope it
   out.
 - **A finding you cannot prove is not promoted and not deleted.** It goes in
@@ -183,7 +182,7 @@ Two rules for the edges:
 ### Step 6: What cannot block
 
 - A structural complaint with no bounded alternative. Propose the move, or drop
-  it. A structural issue is "must fix" only when this change created or
+  it. A structural issue is **P1** only when this change created or
   materially worsened it, a cleaner shape exists, behavior preservation is
   testable, and leaving it would multiply the problem.
 - Style a formatter or linter owns, and slogans (file length, SOLID, Clean
@@ -223,11 +222,13 @@ Half of the round trip is not code:
 ## Output
 
 A single report in a reviewer's voice, delivered to the author. Lead with the
-verdict, then the fix list, hardest first.
+verdict, then a **Findings** list severity-labeled **P0** through **P3**
+(fewest tiers actually needed; skip a tier entirely if nothing lands there),
+ordered hardest first within each tier.
 
 The verdict is the one a reviewer would leave: `not ready` is Request changes
-and needs a blocker or must-fix to justify it, `ready with notes` is Comment,
-and `ready` is Approve.
+and needs at least one P0 or P1 to justify it, `ready with notes` is Comment
+(only P2/P3 present), and `ready` is Approve.
 
 ```markdown
 ## Review ready: [not ready | ready with notes | ready]
@@ -239,14 +240,19 @@ and `ready` is Approve.
 Only when one exists. Each earlier finding as closed, partially closed, or
 open, with what you checked.
 
-### Fix before review
+### Findings
+
+**P0** — blocks merge, catastrophic/irreversible
 1. `path:line` <what breaks, for whom, and the fix> — premise: <state>
 
-### Reviewer will ask
+**P1** — must fix before requesting review
+1. `path:line` <what breaks, for whom, and the fix> — premise: <state>
+
+**P2** — reviewer will ask
 Ordered most serious first, never by file order.
 1. `path:line` <the issue or question, and the answer if you have one> — premise: <state>
 
-### Optional
+**P3** — optional
 Grouped, one line each.
 
 ### Not verified
@@ -259,10 +265,12 @@ Description, verification story, and splitting notes from Step 8.
 
 Rules for the report:
 
-- **If there are no blockers, say "ready" plainly.** Do not invent a finding to
-  look thorough. An empty blocker list on a small clean change is correct.
-- **Order "Reviewer will ask" by severity, not by file.** A reintroduced bug
-  and a test-naming nit must not get the same visual weight.
+- **If there are no P0/P1 findings, say "ready" plainly.** Do not invent a
+  finding to look thorough. An empty P0/P1 list on a small clean change is
+  correct.
+- **Order within each tier by severity, not by file.** A reintroduced bug and
+  a test-naming nit must not get the same visual weight even inside the same
+  tier.
 - Quantify where you can. "This N+1 adds a query per row on a list that pages
   at 100" beats "possible performance issue".
 - Every finding names a location and a fix. A complaint without a remedy is not
