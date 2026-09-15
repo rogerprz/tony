@@ -1,8 +1,10 @@
 {
   "name": "tony",
   "description": "Reusable day-to-day engineering skills",
-  "version": "0.2.0",
-  "author": { "name": "Roger Perez" },
+  "version": "0.2.1",
+  "author": {
+    "name": "Roger Perez"
+  },
   "homepage": "https://github.com/rogerprz/tony",
   "repository": "https://github.com/rogerprz/tony"
 }

@@ -80,6 +80,20 @@ PR comments"). For a quick local test without installing:
 claude --plugin-dir ./plugins/tony
 ```
 
+**Publishing a new plugin version:** the marketplace tracks the
+`version` in `plugins/tony/.claude-plugin/plugin.json`. After merging
+skill changes to `main`, bump it so `/plugin update tony@tony` has
+something new to pick up:
+
+```bash
+npm run publish:new:version         # patch bump (default)
+npm run publish:new:version:minor   # minor bump
+npm run publish:new:version:major   # major bump
+```
+
+Commit the bumped `plugin.json` and push to `main` — that's the whole
+release, there's no separate build or publish step.
+
 **Claude.ai:** Zip an individual skill folder under
 `plugins/tony/skills/<skill-name>/` (the folder itself becomes the
 zip root) and upload it via Customize → Skills. Requires "Code

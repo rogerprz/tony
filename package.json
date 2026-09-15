@@ -1,0 +1,11 @@
+{
+  "name": "tony",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Reusable day-to-day engineering skills for Claude Code",
+  "scripts": {
+    "publish:new:version": "node scripts/bump-version.js",
+    "publish:new:version:minor": "node scripts/bump-version.js minor",
+    "publish:new:version:major": "node scripts/bump-version.js major"
+  }
+}
