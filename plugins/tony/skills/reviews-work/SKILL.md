@@ -73,10 +73,27 @@ as long between them.
 
 1. **The doc needs nothing further** — either on the first read (skip the
    loop entirely) or after re-reviewing a worker's changes. Stop and report
-   to the user that it's ready.
+   to the user that it's ready. If the doc is a spec (not already a plan),
+   see **Next phase** below before ending your turn.
 2. **A full round (5 checks) at the current interval passes with no new
    worker entry.** Stop — the worker appears to have gone quiet — and tell
    the user so.
+
+## Next phase: spec marked ready → write the plan
+
+If stop condition 1 fires and the doc you were reviewing is a **spec**
+(not a plan already), don't just stop at "ready" — move the work into the
+next phase:
+
+- If the `superpowers:writing-plans` skill is available, invoke it to
+  produce the implementation plan from the now-approved spec.
+- If it isn't available, write the plan yourself directly, following
+  standard planning best practices (clear phases, concrete file targets, a
+  testing/verification strategy, no ambiguity left for the implementer).
+
+This only applies when the reviewed doc is a spec. If you were reviewing a
+plan doc, stop condition 1 is the end of this skill's work — there is no
+further phase to hand off to.
 
 Everything else (a new worker entry arriving, re-reviewing, writing more
 change requests) keeps the loop going. Do not stop just because you wrote a
