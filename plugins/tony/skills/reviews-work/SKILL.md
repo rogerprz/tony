@@ -42,7 +42,7 @@ fallback rather than abandoning the check loop:
 1. Create a temporary timer script outside the target repository (for example,
    `/private/tmp/tony_reviews_work_timer.py`) that sleeps for the requested number of seconds and
    prints a completion marker.
-2. Run it for `delaySeconds` (normally 300 seconds) in a background/interactive command session.
+2. Run it for `delaySeconds` (normally 120 seconds) in a background/interactive command session.
 3. Poll the session at intervals no longer than 30 seconds until the completion marker appears,
    then resume the review loop. Send a concise progress update while the timer is running.
 

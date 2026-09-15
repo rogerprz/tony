@@ -14,6 +14,29 @@ until the reviewer says the doc is done. Run this one when the reviewer's
 requests already exist (or are about to), so it sleeps first instead of
 writing anything up front.
 
+## Repository path and wakeup fallback
+
+When the user supplies a document path, treat that path as authoritative and resolve it to an
+absolute filesystem path before doing any work. Derive the repository/worktree from the target
+document's parent directories; do not assume the current workspace or a same-named repository is
+the target. Run all reads and writes against that resolved path, and report the resolved path in
+the first progress update when it differs from the current working directory.
+
+If `ScheduleWakeup` or an equivalent scheduler is unavailable, use a bounded Python timer as the
+fallback rather than ending the worker loop:
+
+1. Create a temporary timer script outside the target repository (for example,
+   `/private/tmp/tony_reviews_work_timer.py`) that sleeps for the current round interval and prints
+   a completion marker.
+2. Run it in a background/interactive command session. Use the current interval from the timing
+   rules: 180 seconds for the first round, then 120 seconds once the interval has shrunk to the
+   floor.
+3. Poll the session at intervals no longer than 30 seconds until the completion marker appears,
+   then resume this skill's Changelog check. Send a concise progress update while the timer runs.
+
+The timer is only a wakeup substitute; it does not change the round/check semantics or authorize
+edits outside the target document.
+
 ## Sleeping between checks — any agent, any harness
 
 This skill is AI-agnostic: it does not depend on any one platform's tool
