@@ -28,6 +28,27 @@ something "the worker's loop" or "the user" will pick back up — that's the
 job of this skill's own loop. Only stop for a real stop condition (below),
 and say so explicitly when you do.
 
+## Repository path and wakeup fallback
+
+When the user supplies a document path, treat that path as authoritative and resolve it to an
+absolute filesystem path before doing any work. Derive the repository/worktree from the target
+document's parent directories; do not assume the current workspace or a same-named repository is
+the target. Run all reads and writes against that resolved path, and report the resolved path in
+the first progress update when it differs from the current working directory.
+
+If `ScheduleWakeup` is unavailable in the current session, use a bounded Python timer as the
+fallback rather than abandoning the check loop:
+
+1. Create a temporary timer script outside the target repository (for example,
+   `/private/tmp/tony_reviews_work_timer.py`) that sleeps for the requested number of seconds and
+   prints a completion marker.
+2. Run it for `delaySeconds` (normally 300 seconds) in a background/interactive command session.
+3. Poll the session at intervals no longer than 30 seconds until the completion marker appears,
+   then resume the review loop. Send a concise progress update while the timer is running.
+
+The timer is only a wakeup substitute; it does not change the review semantics or authorize edits
+outside the target document's Changelog.
+
 ## Changelog format
 
 The Changelog lives at the bottom of the target doc, under a `## Changelog`
