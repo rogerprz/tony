@@ -95,22 +95,34 @@ as long between them.
 1. **The doc needs nothing further** — either on the first read (skip the
    loop entirely) or after re-reviewing a worker's changes. Stop and report
    to the user that it's ready. If the doc is a spec (not already a plan),
-   see **Next phase** below before ending your turn.
+   see **Next phase** below before ending your turn: you sleep 5 minutes,
+   find the uncommitted plan, and review it.
 2. **A full round (5 checks) at the current interval passes with no new
    worker entry.** Stop — the worker appears to have gone quiet — and tell
    the user so.
 
-## Next phase: spec marked ready → write the plan
+## Next phase: spec marked ready → review the new plan
 
 If stop condition 1 fires and the doc you were reviewing is a **spec**
-(not a plan already), don't just stop at "ready" — move the work into the
-next phase:
+(not a plan already), don't just stop at "ready" — the plan for that spec
+is being written by someone else, so move into reviewing it:
 
-- If the `superpowers:writing-plans` skill is available, invoke it to
-  produce the implementation plan from the now-approved spec.
-- If it isn't available, write the plan yourself directly, following
-  standard planning best practices (clear phases, concrete file targets, a
-  testing/verification strategy, no ambiguity left for the implementer).
+1. **Sleep 5 minutes** using the mechanism described above, giving the
+   plan's author time to produce it. Do not write the plan yourself.
+2. **Find the uncommitted plan.** In the repository/worktree containing
+   the spec, run `git status` and look for an uncommitted (untracked or
+   modified) plan doc, excluding the spec you just reviewed. Prefer files
+   whose path or title contains "plan" (e.g. under a `plans/` directory).
+   If several candidates exist, pick the most recently modified and say
+   which one you chose.
+3. **If no uncommitted plan is found**, sleep another 5 minutes and look
+   again, up to 3 more times. If there is still none, stop and tell the
+   user no plan appeared.
+4. **Review that plan as the new target doc.** Resolve its absolute path,
+   then run the normal process below on it from step 1: read it in full,
+   write Changelog change requests (or stop if it needs nothing), and run
+   the check loop with a fresh round count and the initial 3-minute
+   interval.
 
 This only applies when the reviewed doc is a spec. If you were reviewing a
 plan doc, stop condition 1 is the end of this skill's work — there is no
