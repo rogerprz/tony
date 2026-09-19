@@ -79,7 +79,7 @@ The wait between checks is not fixed. It runs in **rounds**:
 
 - Each round is up to **5 checks** at a fixed interval.
 - The first round's interval is **3 minutes**.
-- Every time a round ends because a *new worker entry arrived* (not because
+- Every time a round ends because a _new worker entry arrived_ (not because
   it ran out of checks), the next round's interval drops by **1 minute**,
   down to a floor of **2 minutes**. Later rounds stay at 2 minutes once they
   hit the floor.
@@ -95,7 +95,7 @@ as long between them.
 1. **The doc needs nothing further** — either on the first read (skip the
    loop entirely) or after re-reviewing a worker's changes. Stop and report
    to the user that it's ready. If the doc is a spec (not already a plan),
-   see **Next phase** below before ending your turn: you sleep 5 minutes,
+   see **Next phase** below before ending your turn: you sleep 6 minutes,
    find the uncommitted plan, and review it.
 2. **A full round (5 checks) at the current interval passes with no new
    worker entry.** Stop — the worker appears to have gone quiet — and tell
@@ -107,15 +107,14 @@ If stop condition 1 fires and the doc you were reviewing is a **spec**
 (not a plan already), don't just stop at "ready" — the plan for that spec
 is being written by someone else, so move into reviewing it:
 
-1. **Sleep 5 minutes** using the mechanism described above, giving the
+1. **Sleep 6 minutes** using the mechanism described above, giving the
    plan's author time to produce it. Do not write the plan yourself.
 2. **Find the uncommitted plan.** In the repository/worktree containing
-   the spec, run `git status` and look for an uncommitted (untracked or
+   the spec, run `git status` and look for an uncommitted (untracked/staged and/or
    modified) plan doc, excluding the spec you just reviewed. Prefer files
    whose path or title contains "plan" (e.g. under a `plans/` directory).
-   If several candidates exist, pick the most recently modified and say
-   which one you chose.
-3. **If no uncommitted plan is found**, sleep another 5 minutes and look
+   If several candidates exist, the one that matches the similar feature or wording is most likely the right one so go with that one.
+3. **If no uncommitted plan is found**, sleep 3 minutes and look
    again, up to 3 more times. If there is still none, stop and tell the
    user no plan appeared.
 4. **Review that plan as the new target doc.** Resolve its absolute path,
@@ -155,13 +154,13 @@ checking, per the timing rules above.
      step 5.
 5. **Acknowledge, then re-review.**
    a. Add a new top-of-Changelog entry, role `Reviewer`, timestamped now,
-      saying you've seen their update and are re-reviewing — this tells the
-      other agent you're active if they check back before you finish.
+   saying you've seen their update and are re-reviewing — this tells the
+   other agent you're active if they check back before you finish.
    b. Re-read the doc in full (not just the diff implied by their note) and
-      judge whether it now satisfies what was asked.
+   judge whether it now satisfies what was asked.
    c. If more changes are needed: go back to step 2 (new numbered
-      change-request entry), then start a new round at step 3 — drop the
-      interval by 1 minute (floor 2 minutes) and reset the check count to 0.
+   change-request entry), then start a new round at step 3 — drop the
+   interval by 1 minute (floor 2 minutes) and reset the check count to 0.
    d. If nothing more is needed: stop per stop condition 1.
 
 ## Output
