@@ -95,7 +95,7 @@ as long between them.
 1. **The doc needs nothing further** — either on the first read (skip the
    loop entirely) or after re-reviewing a worker's changes. Stop and report
    to the user that it's ready. If the doc is a spec (not already a plan),
-   see **Next phase** below before ending your turn: you sleep 6 minutes,
+   see **Next phase** below before ending your turn: you sleep 10 minutes,
    find the uncommitted plan, and review it.
 2. **A full round (5 checks) at the current interval passes with no new
    worker entry.** Stop — the worker appears to have gone quiet — and tell
@@ -107,7 +107,7 @@ If stop condition 1 fires and the doc you were reviewing is a **spec**
 (not a plan already), don't just stop at "ready" — the plan for that spec
 is being written by someone else, so move into reviewing it:
 
-1. **Sleep 6 minutes** using the mechanism described above, giving the
+1. **Sleep 10 minutes** using the mechanism described above, giving the
    plan's author time to produce it. Do not write the plan yourself.
 2. **Find the uncommitted plan.** In the repository/worktree containing
    the spec, run `git status` and look for an uncommitted (untracked/staged and/or
