@@ -93,10 +93,16 @@ as long between them.
 ## Stop conditions — the only two ways this loop ends
 
 1. **The doc needs nothing further** — either on the first read (skip the
-   loop entirely) or after re-reviewing a worker's changes. Stop and report
-   to the user that it's ready. If the doc is a spec (not already a plan),
-   see **Next phase** below before ending your turn: you sleep 10 minutes,
-   find the uncommitted plan, and review it.
+   loop entirely) or after re-reviewing a worker's changes. Before stopping,
+   write a final top-of-Changelog `Reviewer` entry that says the document is
+   **ready** and may move to the next phase. If the document has a visible
+   `Status:` line, change it from `Draft for review` to `Ready for
+   implementation` (or `Ready for planning` when the document is a spec).
+   This marker is the hand-off signal consumed by `tony:does-work`; do not
+   rely on chat text alone. If the doc is a spec (not already a plan), see
+   **Next phase** below before ending your turn: you sleep 10 minutes, find
+   the uncommitted plan, and review it. Only mark the spec ready after that
+   plan has also passed review.
 2. **A full round (5 checks) at the current interval passes with no new
    worker entry.** Stop — the worker appears to have gone quiet — and tell
    the user so.
@@ -161,12 +167,16 @@ checking, per the timing rules above.
    c. If more changes are needed: go back to step 2 (new numbered
    change-request entry), then start a new round at step 3 — drop the
    interval by 1 minute (floor 2 minutes) and reset the check count to 0.
-   d. If nothing more is needed: stop per stop condition 1.
+   d. If nothing more is needed: write the final ready marker required by
+      stop condition 1. For a spec, continue into **Next phase** first; do
+      not mark the spec ready while its implementation plan is still absent
+      or unreviewed.
 
 ## Output
 
 Changelog entries written directly into the spec/plan file at each step
-above, plus a short chat message at the point the loop actually stops (ready,
-or the other agent went quiet) summarizing what happened. This skill only
-edits the target doc's Changelog section — it does not touch the rest of the
-doc's content, code, or any other file.
+above, including a final machine-readable `Reviewer` ready marker before the
+loop stops for a ready document, plus a short chat message at that point
+(ready, or the other agent went quiet) summarizing what happened. This skill
+only edits the target doc's Changelog section and its explicit `Status:` line
+when marking it ready — it does not touch code or any other file.
