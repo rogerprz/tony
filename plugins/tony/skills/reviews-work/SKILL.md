@@ -101,11 +101,28 @@ as long between them.
    This marker is the hand-off signal consumed by `tony:does-work`; do not
    rely on chat text alone. If the doc is a spec (not already a plan), see
    **Next phase** below before ending your turn: you sleep 10 minutes, find
-   the uncommitted plan, and review it. Only mark the spec ready after that
-   plan has also passed review.
+   the uncommitted plan, and review it. The spec's own `READY` marker is the
+   handoff to planning; the plan must receive its own `READY` marker before
+   implementation proceeds.
 2. **A full round (5 checks) at the current interval passes with no new
    worker entry.** Stop — the worker appears to have gone quiet — and tell
    the user so.
+
+## Phase completion and handoff markers
+
+Every completed review phase must leave an explicit machine-readable handoff in the target
+document before the workflow advances or stops. When the document needs no further changes, add a
+top-of-Changelog `Reviewer` entry containing `READY` and state that the document may move to its
+next phase. If the document has a visible `Status:` line, update it at the same time: specs become
+`Ready for planning`, and plans become `Ready for implementation`. Do not rely on chat text alone.
+
+This requirement applies independently to the spec phase, the plan phase, and every subsequent
+reviewed phase. A phase is not complete until its document has both the explicit `READY` Changelog
+marker and the corresponding `Status:` value (when the document has one). The next phase may begin
+only after that marker is written. If the current document is a spec and the implementation plan
+has not yet been reviewed, the spec may still be marked `Ready for planning` once the spec itself
+is complete; the plan then becomes the new review target and must receive its own `READY` marker
+before implementation proceeds.
 
 ## Next phase: spec marked ready → review the new plan
 
