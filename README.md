@@ -117,8 +117,11 @@ distribution requires separate packaging.
   architecture, security, performance) with severity-labeled findings,
   change-sizing guidance, and a verdict.
 - **`pr-comments`** — reviews the current PR's comments, checks each
-  against the actual diff, flags due-diligence gaps, and produces a
-  change plan. Doesn't auto-apply changes or reply to comments.
+  against the actual diff, analyzes in depth to pre-empt follow-up
+  comments, fixes the valid ones, commits, pushes, and replies to each
+  comment (pushback replies for invalid ones). Ends with a bulleted
+  summary of why the comments were missed. Aliases: `reviews-comments`,
+  `rc`.
 - **`is-review-ready`** — reviews your own branch, diff, or PR the way an
   outside reviewer would, before you request review, so the real
   reviewers don't spend a round on what you could have caught. Scope
