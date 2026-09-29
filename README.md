@@ -134,6 +134,7 @@ distribution requires separate packaging.
   Changelog, then checks back on a timer so a companion agent (e.g.
   `tony:does-work`) can act on them and hand back, without a human
   polling either side.
+- **`rw`** — shortcut alias for `tony:reviews-work`.
 
 ## Contributing
 
