@@ -106,11 +106,42 @@ If stop condition 1 fires and the doc you were working on is a **spec** (not
 a plan already), don't just stop at "ready" — move the work into the next
 phase:
 
-- If the `superpowers:writing-plans` skill is available, invoke it to
-  produce the implementation plan from the now-approved spec.
-- If it isn't available, write the plan yourself directly, following
-  standard planning best practices (clear phases, concrete file targets, a
-  testing/verification strategy, no ambiguity left for the implementer).
+1. **Pick the plan's path.** Decide where the plan will live before writing
+   any of it — follow the repo's existing convention (e.g. a `plans/`
+   directory next to or mirroring the spec's `specs/` directory), otherwise
+   put it beside the spec with a `-plan` suffix. Resolve it to an absolute
+   path.
+2. **Create a placeholder plan file** at that path containing only the
+   plan's heading and an in-progress status, nothing else:
+
+   ```markdown
+   # <Feature name> Implementation Plan
+
+   Status: Plan creation in progress
+   ```
+
+3. **Log the plan path in the spec's Changelog.** Add a new
+   top-of-Changelog entry, role `Worker`, timestamped now, with the literal
+   `PLAN:` marker followed by the absolute plan path:
+
+   ```markdown
+   - **2026-09-09T15:02Z — Worker:** PLAN: /abs/path/to/plans/feature-plan.md — plan creation in progress.
+   ```
+
+   This is the hand-off signal `tony:reviews-work` reads to find the plan
+   it should review next. Write it before starting the plan, not after.
+4. **Write the plan into that same file**, replacing the placeholder:
+   - If the `superpowers:writing-plans` skill is available, invoke it to
+     produce the implementation plan from the now-approved spec, and save
+     its output to the path from step 1 (not a path of its own choosing).
+   - If it isn't available, write the plan yourself directly, following
+     standard planning best practices (clear phases, concrete file targets,
+     a testing/verification strategy, no ambiguity left for the
+     implementer).
+
+   When the plan is complete, change its `Status:` line to
+   `Draft for review`. If the plan ends up at a different path after all,
+   add another `PLAN:` entry to the spec's Changelog with the new path.
 
 This only applies when the doc is a spec. If you were working on a plan doc,
 stop condition 1 is the end of this skill's work — there is no further phase
@@ -155,4 +186,5 @@ checking, per the timing rules above.
 Changelog entries plus the doc edits described in step 3b, written directly
 into the target file, and a short chat message when the loop actually stops
 (done, or the reviewer went quiet). This skill edits the target doc only —
-no other files, no commits, no PRs.
+plus, in the **Next phase**, the new plan file and the spec's `PLAN:`
+Changelog entry. No other files, no commits, no PRs.

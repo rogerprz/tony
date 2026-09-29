@@ -101,7 +101,8 @@ as long between them.
    This marker is the hand-off signal consumed by `tony:does-work`; do not
    rely on chat text alone. If the doc is a spec (not already a plan), see
    **Next phase** below before ending your turn: you sleep 10 minutes, find
-   the uncommitted plan, and review it. The spec's own `READY` marker is the
+   the plan via the `PLAN:` path logged in the spec's Changelog, and review
+   it. The spec's own `READY` marker is the
    handoff to planning; the plan must receive its own `READY` marker before
    implementation proceeds.
 2. **A full round (5 checks) at the current interval passes with no new
@@ -132,14 +133,24 @@ is being written by someone else, so move into reviewing it:
 
 1. **Sleep 10 minutes** using the mechanism described above, giving the
    plan's author time to produce it. Do not write the plan yourself.
-2. **Find the uncommitted plan.** In the repository/worktree containing
-   the spec, run `git status` and look for an uncommitted (untracked/staged and/or
-   modified) plan doc, excluding the spec you just reviewed. Prefer files
-   whose path or title contains "plan" (e.g. under a `plans/` directory).
-   If several candidates exist, the one that matches the similar feature or wording is most likely the right one so go with that one.
-3. **If no uncommitted plan is found**, sleep 3 minutes and look
-   again, up to 3 more times. If there is still none, stop and tell the
-   user no plan appeared.
+2. **Find the plan from the spec's Changelog.** Re-read the spec's
+   Changelog and look for a `Worker` entry containing `PLAN:` followed by a
+   path — `tony:does-work` writes it before it starts the plan. If there
+   are several, use the newest (topmost). Resolve that path to an absolute
+   path and use it as the plan.
+   - **If the plan file still says `Status: Plan creation in progress`**
+     (or is only a heading), the plan isn't finished yet. Treat it as not
+     ready and go to step 3.
+   - **If there is no `PLAN:` entry**, fall back to `git status`: in the
+     repository/worktree containing the spec, look for an uncommitted
+     (untracked/staged and/or modified) plan doc, excluding the spec you
+     just reviewed. Prefer files whose path or title contains "plan" (e.g.
+     under a `plans/` directory). If several candidates exist, go with the
+     one that matches the spec's feature or wording.
+3. **If no finished plan is found**, sleep 3 minutes and look again (step
+   2), up to 3 more times. If there is still none, stop and tell the user
+   no plan appeared. If a `PLAN:` path was logged but the plan is still in
+   progress, include that path in your message.
 4. **Review that plan as the new target doc.** Resolve its absolute path,
    then run the normal process below on it from step 1: read it in full,
    write Changelog change requests (or stop if it needs nothing), and run
