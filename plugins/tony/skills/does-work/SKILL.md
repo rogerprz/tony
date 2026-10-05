@@ -1,6 +1,6 @@
 ---
 name: does-work
-description: "Use when asked to act on change requests left by a reviewing agent (often invoked with tony:reviews-work) in a spec or plan doc's Changelog. Sleeps in rounds of 5 checks, starting at 3-minute intervals and shrinking to 2, applying each new change request as it appears. When the spec is marked ready it writes the plan and works the plan's review loop until the plan is ready. It implements the plan only when the user also says "execute plan". Triggers: 'apply the review changes and wait for more', 'does:work', 'work through the changelog on this doc'."
+description: "Use when asked to act on change requests left by a reviewing agent (often invoked with tony:reviews-work) in a spec or plan doc's Changelog. Sleeps in rounds of 5 checks, starting at 3-minute intervals and shrinking to 2, applying each new change request as it appears. When the spec is marked ready it writes the plan and works the plan's review loop until the plan is ready. It implements the plan only when the user also says 'execute plan'. Triggers: 'apply the review changes and wait for more', 'does:work', 'work through the changelog on this doc'."
 ---
 
 # Does Work (tony:does-work)
