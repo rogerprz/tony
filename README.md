@@ -138,6 +138,13 @@ distribution requires separate packaging.
   `tony:does-work`) can act on them and hand back, without a human
   polling either side.
 - **`rw`** — shortcut alias for `tony:reviews-work`.
+- **`fix-merge-conflicts`** — merges the latest base into the current
+  branch, resolves every conflict, verifies, commits, and pushes. Alias:
+  `fmc`.
+- **`fix-issues`** — finds and fixes non-comment PR blockers (merge
+  conflicts, Buildkite and GitHub check failures, build errors, PR
+  metadata). Excludes review comments; use `pr-comments` for those.
+  Alias: `fi`.
 
 ## Contributing
 
