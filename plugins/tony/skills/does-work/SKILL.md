@@ -76,6 +76,32 @@ from your own last entry. When reading a `Reviewer` entry, its numbered
 sub-list is the actual set of requested changes — treat each numbered item
 as one discrete change to apply.
 
+## Revision marker
+
+Every doc this skill works on (spec and plan, each with its own count) carries a
+`Revision:` line at the top, directly under the `Status:` line (or under the
+title if there is no `Status:` line):
+
+```markdown
+Revision: v2
+```
+
+Rules:
+
+1. **First loop is v1.** When you first enter the loop on a doc with no
+   `Revision:` line, add `Revision: v1`. A new plan file starts at `v1` too.
+2. **Each loop bumps it by one.** When you hand back (Process step 4), set
+   `Revision:` to the next number (`v1` to `v2`, then `v3`, and so on) and put
+   the same tag in your hand-back entry: `- **2026-09-09T14:40Z — Worker (v2):**`.
+3. **Complete freezes the number.** When the doc is marked ready, leave
+   `Revision:` as is. That number is the completed revision.
+4. **Scope change reopens at the next number, with a `.x`.** If the doc is
+   already marked complete at `v4` and a new request changes scope, set
+   `Revision: v5.1`. Each later hand-back increments the part after the dot
+   (`v5.2`, `v5.3`). When that is marked ready, it is complete at `v5.N`. A
+   second scope change then starts `v6.1`.
+5. Edit the line in place. Do not add a second one.
+
 ## Timing: rounds of 5, shrinking from 3 minutes to 2
 
 The wait between checks is not fixed. It runs in **rounds**:
@@ -154,6 +180,7 @@ When the spec is marked ready, don't stop. Move the work into the next phase:
    # <Feature name> Implementation Plan
 
    Status: Plan creation in progress
+   Revision: v1
    ```
 
 3. **Log the plan path in the spec's Changelog.** Add a new
@@ -281,7 +308,8 @@ checking, per the timing rules above.
 4. **Hand back, then keep going.** Add a Changelog entry, role `Worker`,
    with a numbered sub-list mirroring what you changed (one item per
    requested change you addressed), stating it's ready for another review
-   pass. Start a new round: drop the interval by 1 minute (floor 2 minutes),
+   pass. Bump the doc's `Revision:` line and tag the entry (see **Revision
+   marker**). Start a new round: drop the interval by 1 minute (floor 2 minutes),
    reset the check count to 0, and go back to step 1. Do not stop here —
    the skill only ends as described in **Phases and when the whole skill ends**.
 
