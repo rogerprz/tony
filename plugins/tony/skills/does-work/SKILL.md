@@ -309,7 +309,10 @@ checking, per the timing rules above.
    with a numbered sub-list mirroring what you changed (one item per
    requested change you addressed), stating it's ready for another review
    pass. Bump the doc's `Revision:` line and tag the entry (see **Revision
-   marker**). Start a new round: drop the interval by 1 minute (floor 2 minutes),
+   marker**). Then stage, never commit: run `git -C <doc's repo> add <doc path>`
+   for each doc you edited in this loop (the spec, the plan, or both), naming
+   exact paths, never `-A` or `.`. Stage after every round of edits, including
+   the plan file when you first create it. Start a new round: drop the interval by 1 minute (floor 2 minutes),
    reset the check count to 0, and go back to step 1. Do not stop here —
    the skill only ends as described in **Phases and when the whole skill ends**.
 
@@ -317,11 +320,13 @@ checking, per the timing rules above.
 
 - **During the review loops:** Changelog entries plus the doc edits described in step 3b, written
   directly into the spec or plan. In the **Next phase**, also the new plan file and the spec's
-  `PLAN:` Changelog entry. No code changes, no commits.
+  `PLAN:` Changelog entry, all staged but not committed. No code changes, no commits.
 - **In execute-plan mode only:** the plan's code, test and config changes, one commit per task on
   a non-worktree branch, the plan's checkbox updates and `EXECUTING:` / `BLOCKED:` / `DONE:`
   entries, a push, and one PR per repo.
 - **A short chat message only when the skill ends:** the plan is ready (execute-plan mode off),
   the PR(s) are open, the run is blocked, or the reviewer went quiet.
 
-Outside execute-plan mode: no commits, no pushes, no PRs.
+Outside execute-plan mode: the docs you edit are staged (`git add` on exact
+paths) after each round of edits, but never committed. No commits, no pushes,
+no PRs.
