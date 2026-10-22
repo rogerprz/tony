@@ -17,6 +17,12 @@ run. It does not carry over to any other work in the session.
 
 ## Process
 
+0. **Pre-phase: run `tony:fix-issues` first.** Invoke the
+   `tony:fix-issues` skill on the current PR before touching any
+   comment. It clears merge conflicts, failing CI, and PR metadata
+   problems, so the comment fixes land on a mergeable branch. Continue
+   to step 1 when it finishes.
+
 1. **Find the PR.** Run `gh pr view --json number,url,comments,reviews`.
    If it fails (no PR, `gh` not authenticated), stop and say what is
    missing instead of guessing.
