@@ -28,17 +28,21 @@ run. It does not carry over to any other work in the session.
    missing instead of guessing.
 
 2. **Fetch every comment**, including inline diff comments:
+
    ```bash
    gh api repos/{owner}/{repo}/pulls/{number}/comments
    gh pr view {number} --comments
    ```
+
    Keep only outstanding comments: not resolved, not already replied
    to by us.
 
 3. **Read the diff and surrounding code.**
+
    ```bash
    gh pr diff {number}
    ```
+
    Never judge a comment from its text alone. Open the files and
    cross-reference the lines it points at.
 
@@ -55,8 +59,8 @@ run. It does not carry over to any other work in the session.
    2. List the follow-up comments a reviewer would likely leave next
       after seeing this fix.
    3. Plan one fix that resolves the comment and those follow-ups.
-   Do not widen scope beyond the PR's ticket. If a follow-up is out of
-   scope, leave it out and mention it in the summary.
+      Do not widen scope beyond the PR's ticket. If a follow-up is out of
+      scope, leave it out and mention it in the summary.
 
 6. **Fix** the valid comments per the plan. Run the relevant tests,
    lint, and type checks and confirm they pass before committing.
@@ -75,8 +79,8 @@ run. It does not carry over to any other work in the session.
    - One sentence is the norm. Use a second only when it must explain
      something like the change going against the ticket.
    - Example: `Fixed, commit a1b2c3d. Removed the blank guard and
-     refactored the parser so it now trims, validates, and normalizes
-     in one pass.`
+refactored the parser so it now trims, validates, and normalizes
+in one pass.`
 
    Not-valid comments (pushback):
    - Tell the user which comments we are pushing back on and why.
@@ -88,6 +92,17 @@ run. It does not carry over to any other work in the session.
    do not need the quote.
 
 9. **Do not resolve threads.** Leave that to the reviewer.
+
+10. **Re-request review in Studio repos.** After the replies are
+    posted, if the repo is `studio`, `studio2`, `studio-proto` or `studio3` and a
+    review has state `CHANGES_REQUESTED` (blocking), remove and then
+    re-add the `claude-review-deep` and `code-review-deep` labels so the
+    review bots run again:
+    ```bash
+    gh pr edit {number} --remove-label claude-review-deep,code-review-deep
+    gh pr edit {number} --add-label claude-review-deep,code-review-deep
+    ```
+    Skip this in other repos and when no blocking review exists.
 
 ## Output
 
